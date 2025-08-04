@@ -2,18 +2,21 @@ package com.jusipat.map;
 
 import net.minecraft.core.BlockPos;
 
-import java.util.Map;
+import java.util.Arrays;
 
 public class TownMap {
     private int size;
     private BlockPos pos;
     private char[][] grid;
-    Map icons;
     private int beautyScore = 0;
 
     public TownMap(int size, BlockPos pos) {
         this.size = size;
         this.pos = pos;
+        this.grid = new char[size][size];
+        for (int i = 0; i < size; i++) {
+            Arrays.fill(this.grid[i], '.');
+        }
     }
 
     public int getSize() {
@@ -26,6 +29,10 @@ public class TownMap {
 
     public int getBeautyScore() {
         return beautyScore;
+    }
+
+    public char[][] getGrid() {
+        return grid;
     }
 
     public void setSymbol(int x, int y, char symbol) {

@@ -14,10 +14,10 @@ import java.util.function.Supplier;
 public class PlatzBlocks {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(Platz.MOD_ID, Registries.BLOCK);
 
-    public static RegistrySupplier<Block> TOWN_HALL_BLOCK;
+    public static RegistrySupplier<Block> TOWN_SQUARE_BLOCK;
 
     public static void initBlocks() {
-        TOWN_HALL_BLOCK = registerBlock("town_hall_block", () -> new TownSquareBlock(baseProperties("town_hall_block")));
+        TOWN_SQUARE_BLOCK = registerBlock("town_square_block", () -> new TownSquareBlock(baseProperties("town_hall_block")));
 
 
         BLOCKS.register();

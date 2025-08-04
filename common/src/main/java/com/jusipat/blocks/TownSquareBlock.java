@@ -2,6 +2,8 @@ package com.jusipat.blocks;
 
 import com.jusipat.blocks.block_entities.TownSquareBlockEntity;
 import com.jusipat.client.screens.TownSquareMenu;
+import com.jusipat.map.TownMap;
+import com.jusipat.map.TownMapGen;
 import com.mojang.serialization.MapCodec;
 import dev.architectury.event.events.common.InteractionEvent;
 import net.minecraft.core.BlockPos;
@@ -43,15 +45,20 @@ public class TownSquareBlock extends BaseEntityBlock implements InteractionEvent
 
     @Override
     public InteractionResult click(Player player, InteractionHand interactionHand, BlockPos blockPos, Direction direction) {
-        if(player.level().getBlockEntity(blockPos) == null || !(player.level().getBlockEntity(blockPos) instanceof TownSquareBlockEntity blockEntity)){
+        BlockEntity be = player.level().getBlockEntity(blockPos);
+        if (player.level().getBlockEntity(blockPos) == null || !((be) instanceof TownSquareBlockEntity)) {
             return InteractionResult.PASS;
         }
-        if(player.isShiftKeyDown()){
+        if (player.isShiftKeyDown()){
             return InteractionResult.PASS;
         }
 
         if (!player.level().isClientSide) {
             player.openMenu(this.asBlock().defaultBlockState().getMenuProvider(player.level(), blockPos));
+
+            TownSquareBlockEntity townBlockEntity = (TownSquareBlockEntity) be;
+            TownMap map = TownMapGen.generateMap(townBlockEntity);
+            TownMapGen.printMap(map);
         }
 
         return InteractionResult.SUCCESS;
