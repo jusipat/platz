@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "id": "platz",
+  "version": "${version}",
+  "name": "Platz",
+  "description": "This mod adds interactive town squares to Minecraft.",
+  "authors": [
+    "jusipat"
+  ],
+  "contact": {
+    "homepage": "https://fabricmc.net/",
+    "sources": "https://github.com/FabricMC/fabric-example-mod"
+  },
+  "license": "MIT",
+  "icon": "assets/platz/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.jusipat.fabric.PlatzFabric"
+    ],
+    "client": [
+      "com.jusipat.fabric.client.PlatzFabricClient"
+    ]
+  },
+  "mixins": [
+    "platz.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.17.0",
+    "minecraft": "~1.21.7",
+    "java": ">=21",
+    "architectury": ">=17.0.6",
+    "fabric-api": "*"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
+}
