@@ -26,5 +26,4 @@ public class Register {
 
         @NotNull T create(BlockPos pos, BlockState state);
     }
-
 }

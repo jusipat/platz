@@ -8,35 +8,41 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 
+import java.util.ArrayList;
+
 public class TownMapGen {
 
     public static TownMap generateMap(TownSquareBlockEntity blockEntity) {
         final int radius = 16;
         TownMap map = new TownMap(radius * 2, blockEntity.getBlockPos());
-        Level level = blockEntity.getLevel();
 
-        writeToMap(map, level, blockEntity, radius);
-        map.updateBeautyScore();
+        TownMapGen.writeToMap(map, blockEntity, radius);
+        TownMapGen.parseMap(map);
         return map;
     }
 
-    public static void writeToMap(TownMap map, Level level, TownSquareBlockEntity blockEntity, int RADIUS) {
+    public static void writeToMap(TownMap map, TownSquareBlockEntity blockEntity, int RADIUS) {
         for (int h = -1; h < 10; h++) {
             for (int dx = -RADIUS; dx < RADIUS; dx++) {
                 for (int dz = -RADIUS; dz < RADIUS; dz++) {
                     BlockPos scanPos = blockEntity.getBlockPos().offset(dx, h, dz);
+                    Level level = null;
+                    if (blockEntity.hasLevel()) {
+                        level = blockEntity.getLevel();
+                    }
                     BlockState state = level.getBlockState(scanPos);
                     int arrayX = dx + RADIUS;
                     int arrayZ = dz + RADIUS;
                     if (arrayX < map.getSize() && arrayZ < map.getSize()) {
                         char symbol = getSymbolFromBlock(state);
-                            if (symbol != '.') {
-                                map.setSymbol(arrayX, arrayZ, symbol);
-                            }
+                        if (symbol != '.') {
+                            map.setSymbol(arrayX, arrayZ, symbol);
                         }
                     }
                 }
-            }
+                }
+            map.updateBeautyScore();
+        }
     }
 
     public static char getSymbolFromBlock(BlockState state) {
@@ -87,13 +93,17 @@ public class TownMapGen {
         }
     }
 
-    public static void printMap(TownMap map) {
+    public static void parseMap(TownMap map) {
         char[][] mapGrid = map.getGrid();
+        ArrayList<String> ar = new ArrayList<>();
         for (char[] chars : mapGrid) {
+            StringBuilder str = new StringBuilder();
             for (int c = 0; c < mapGrid[0].length; c++) {
-                System.out.print(chars[c]);
+                str.append(chars[c]);
             }
-            System.out.println('\n');
+            ar.add(str.toString());
         }
+        //System.err.println(ar);
+        map.setArray(ar);
     }
 }

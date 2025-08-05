@@ -2,12 +2,14 @@ package com.jusipat.map;
 
 import net.minecraft.core.BlockPos;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class TownMap {
     private int size;
     private BlockPos pos;
     private char[][] grid;
+    private ArrayList<String> array;
     private int beautyScore = 0;
 
     public TownMap(int size, BlockPos pos) {
@@ -25,6 +27,14 @@ public class TownMap {
 
     public BlockPos getPos() {
         return pos;
+    }
+
+    public ArrayList<String> getArray() {
+        return array;
+    }
+
+    public void setArray(ArrayList<String> array) {
+        this.array = array;
     }
 
     public int getBeautyScore() {

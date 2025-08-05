@@ -20,9 +20,10 @@ public class PlatzMenuTypes {
 
     public static RegistrySupplier<MenuType<TownSquareMenu>> TH_BLOCK;
 
-    public static void initMenuTypes(){
-        TH_BLOCK = registerMenuType("th_block", () -> new MenuType<>(TownSquareMenu::new, FeatureFlagSet.of()));
-
+    public static void initMenuTypes() {
+        TH_BLOCK = registerMenuType("th_block", () ->
+                MenuRegistry.ofExtended(TownSquareMenu::new)
+        );
         MENU_TYPES.register();
 
         if (Platform.isFabric()) {
