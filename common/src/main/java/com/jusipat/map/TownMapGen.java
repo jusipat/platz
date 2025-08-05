@@ -86,7 +86,7 @@ public class TownMapGen {
             map.getCharacterSet().put(state, '|');
         }
         else if (state.is(BlockTags.DOORS)) {
-            map.getCharacterSet().put(state, 'D');
+            map.getCharacterSet().put(state, 'd');
         }
         else if (state.is(BlockTags.SLABS)) {
             map.getCharacterSet().put(state, '-');
@@ -100,8 +100,15 @@ public class TownMapGen {
         else if (state.is(Blocks.DIRT_PATH)) {
             map.getCharacterSet().put(state, '_');
         }
+        else if (state.is(Blocks.BUSH) || state.is(Blocks.DEAD_BUSH)) {
+            map.getCharacterSet().put(state, '_');
+        }
+        else if (state.is(Blocks.TALL_DRY_GRASS) || state.is(Blocks.TALL_GRASS)
+        || state.is(Blocks.SHORT_DRY_GRASS) || state.is(Blocks.SHORT_GRASS)) {
+            map.getCharacterSet().put(state, ',');
+        }
         else if (state.getBlock() instanceof TownSquareBlock) {
-            map.getCharacterSet().put(state, 'S');
+            map.getCharacterSet().put(state, 's');
         }
         else {
             map.getCharacterSet().put(state, '.');

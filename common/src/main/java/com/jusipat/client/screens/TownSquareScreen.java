@@ -41,7 +41,7 @@ public class TownSquareScreen extends AbstractContainerScreen<TownSquareMenu> {
                 int x = startX + col * cellWidth;
                 int y = startY + row * cellHeight;
                 guiGraphics.drawString(font, String.valueOf(c), x, y,
-                        menu.getTownSquareBlockEntity().getTownMap().getColourMap().get(c));
+                        menu.getTownSquareBlockEntity().getTownMap().getColourMap().getOrDefault(c, 0xFF2E2E2E));
             }
         }
     }
@@ -52,8 +52,8 @@ public class TownSquareScreen extends AbstractContainerScreen<TownSquareMenu> {
                 guiGraphics,
                 this.font,
                 menu.getTownSquareBlockEntity().getTownMap().getAsciiMap(),
-                62, 10,
-                6, 9
+                15, 5,
+                3, 3
         );
     }
 

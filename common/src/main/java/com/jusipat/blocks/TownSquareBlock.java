@@ -93,6 +93,4 @@ public class TownSquareBlock extends BaseEntityBlock implements InteractionEvent
 
         return InteractionResult.SUCCESS;
     }
-
-
 }
