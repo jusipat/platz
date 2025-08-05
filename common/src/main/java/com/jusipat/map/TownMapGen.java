@@ -26,17 +26,17 @@ public class TownMapGen {
             for (int dx = -RADIUS; dx < RADIUS; dx++) {
                 for (int dz = -RADIUS; dz < RADIUS; dz++) {
                     BlockPos scanPos = blockEntity.getBlockPos().offset(dx, h, dz);
-                    Level level = null;
+                    Level level;
                     if (blockEntity.hasLevel()) {
                         level = blockEntity.getLevel();
-                    }
-                    BlockState state = level.getBlockState(scanPos);
-                    int arrayX = dx + RADIUS;
-                    int arrayZ = dz + RADIUS;
-                    if (arrayX < map.getSize() && arrayZ < map.getSize()) {
-                        char symbol = getSymbolFromBlock(state);
-                        if (symbol != '.') {
-                            map.setSymbol(arrayX, arrayZ, symbol);
+                        BlockState state = level.getBlockState(scanPos);
+                        int arrayX = dx + RADIUS;
+                        int arrayZ = dz + RADIUS;
+                        if (arrayX < map.getSize() && arrayZ < map.getSize()) {
+                            char symbol = getSymbolFromBlock(state);
+                            if (symbol != '.') {
+                                map.setSymbol(arrayX, arrayZ, symbol);
+                            }
                         }
                     }
                 }
@@ -101,6 +101,7 @@ public class TownMapGen {
             for (int c = 0; c < mapGrid[0].length; c++) {
                 str.append(chars[c]);
             }
+            System.err.println(str);
             ar.add(str.toString());
         }
         //System.err.println(ar);

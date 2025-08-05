@@ -86,6 +86,7 @@ public class TownSquareBlock extends BaseEntityBlock implements InteractionEvent
             if (menuProvider != null) {
                 MenuRegistry.openExtendedMenu((ServerPlayer) player, menuProvider);
                 // multiplatform menu open ^^
+
                 //player.openMenu(menuProvider);
             }
         }

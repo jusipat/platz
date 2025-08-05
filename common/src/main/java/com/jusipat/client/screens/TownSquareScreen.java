@@ -32,12 +32,14 @@ public class TownSquareScreen extends AbstractContainerScreen<TownSquareMenu> {
 
     @Override
     protected void renderLabels(GuiGraphics guiGraphics, int i, int j) {
-        // todo: add ascii map rendering
+        // todo: refresh map on reopening screen
         //System.err.println(menu.getTownSquareBlockEntity().getTownMap().getArray().toString());
-        //for (String rowString : menu.getMapData().getArray()) {
+        int offset = 0;
+        for (String rowString : menu.getTownSquareBlockEntity().getTownMap().getArray()) {
             //System.err.println(rowString + '\n');
-            //guiGraphics.drawCenteredString(this.font, Component.literal(rowString), 62, 10, -2039584);
-        //}
+            guiGraphics.drawCenteredString(this.font, Component.literal(rowString), 62, 10 + offset, -2039584);
+            offset+=2;
+        }
     }
 
     @Override
