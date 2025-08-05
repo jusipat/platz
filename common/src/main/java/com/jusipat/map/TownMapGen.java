@@ -9,6 +9,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class TownMapGen {
 
@@ -33,78 +34,77 @@ public class TownMapGen {
                         int arrayX = dx + RADIUS;
                         int arrayZ = dz + RADIUS;
                         if (arrayX < map.getSize() && arrayZ < map.getSize()) {
-                            char symbol = getSymbolFromBlock(state);
-                            if (symbol != '.') {
-                                map.setSymbol(arrayX, arrayZ, symbol);
+                            setMapKey(map, state);
+                            map.getCharacterSet().get(state);
+                            if (map.getCharacterSet().get(state) != '.') {
+                                map.setSymbolFromBlockState(arrayX, arrayZ, state);
                             }
                         }
                     }
                 }
                 }
-            map.updateBeautyScore();
-        }
-    }
-
-    public static char getSymbolFromBlock(BlockState state) {
-        if (state.is(BlockTags.FLOWERS)) { // todo: implement more symbols
-            return '*';
-        }
-        else if (state.is(BlockTags.WALLS)) {
-            return '#';
-        }
-        else if (state.is(BlockTags.LOGS)) {
-            return '#';
-        }
-        else if (state.is(BlockTags.PLANKS)) {
-            return '#';
-        }
-        else if (state.is(Blocks.COBBLESTONE) || state.is(Blocks.MOSSY_COBBLESTONE)) {
-            return '#';
-        }
-        else if (state.is(Blocks.STONE)) {
-            return '#';
-        }
-        else if (state.is(BlockTags.STONE_BRICKS)) {
-            return '#';
-        }
-        else if (state.is(BlockTags.CROPS)) {
-            return '|';
-        }
-        else if (state.is(BlockTags.DOORS)) {
-            return 'D';
-        }
-        else if (state.is(BlockTags.SLABS)) {
-            return '-';
-        }
-        else if (state.is(BlockTags.STAIRS)) {
-            return '/';
-        }
-        else if (state.is(Blocks.WATER)) {
-            return '~';
-        }
-        else if (state.is(Blocks.DIRT_PATH)) {
-            return '_';
-        }
-        else if (state.getBlock() instanceof TownSquareBlock) {
-            return 'S';
-        }
-        else {
-            return '.';
         }
     }
 
     public static void parseMap(TownMap map) {
-        char[][] mapGrid = map.getGrid();
-        ArrayList<String> ar = new ArrayList<>();
-        for (char[] chars : mapGrid) {
+        BlockState[][] mapGrid = map.getGrid();
+        HashMap<BlockState, Character> mapCharKeySet = map.getCharacterSet();
+        ArrayList<String> asciiReadable = new ArrayList<>();
+        for (BlockState[] states : mapGrid) {
             StringBuilder str = new StringBuilder();
             for (int c = 0; c < mapGrid[0].length; c++) {
-                str.append(chars[c]);
+                str.append(mapCharKeySet.getOrDefault(states[c], '.'));
             }
-            System.err.println(str);
-            ar.add(str.toString());
+            asciiReadable.add(str.toString());
         }
-        //System.err.println(ar);
-        map.setArray(ar);
+        map.setAsciiMap(asciiReadable);
+    }
+
+    public static void setMapKey(TownMap map, BlockState state) {
+        if (state.is(BlockTags.FLOWERS)) { // todo: implement more symbols
+            map.getCharacterSet().put(state, '*');
+        }
+        else if (state.is(BlockTags.WALLS)) {
+            map.getCharacterSet().put(state, '#');
+        }
+        else if (state.is(BlockTags.LOGS)) {
+            map.getCharacterSet().put(state, '#');
+        }
+        else if (state.is(BlockTags.PLANKS)) {
+            map.getCharacterSet().put(state, '#');
+        }
+        else if (state.is(Blocks.COBBLESTONE) || state.is(Blocks.MOSSY_COBBLESTONE)) {
+            map.getCharacterSet().put(state, '#');
+        }
+        else if (state.is(Blocks.STONE)) {
+            map.getCharacterSet().put(state, '#');
+        }
+        else if (state.is(BlockTags.STONE_BRICKS)) {
+            map.getCharacterSet().put(state, '#');
+        }
+        else if (state.is(BlockTags.CROPS)) {
+            map.getCharacterSet().put(state, '|');
+        }
+        else if (state.is(BlockTags.DOORS)) {
+            map.getCharacterSet().put(state, 'D');
+        }
+        else if (state.is(BlockTags.SLABS)) {
+            map.getCharacterSet().put(state, '-');
+        }
+        else if (state.is(BlockTags.STAIRS)) {
+            map.getCharacterSet().put(state, '/');
+        }
+        else if (state.is(Blocks.WATER)) {
+            map.getCharacterSet().put(state, '~');
+        }
+        else if (state.is(Blocks.DIRT_PATH)) {
+            map.getCharacterSet().put(state, '_');
+        }
+        else if (state.getBlock() instanceof TownSquareBlock) {
+            map.getCharacterSet().put(state, 'S');
+        }
+        else {
+            map.getCharacterSet().put(state, '.');
+        }
     }
 }

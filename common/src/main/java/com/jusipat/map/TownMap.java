@@ -1,62 +1,67 @@
 package com.jusipat.map;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 public class TownMap {
     private int size;
-    private BlockPos pos;
-    private char[][] grid;
-    private ArrayList<String> array;
-    private int beautyScore = 0;
+    private BlockState[][] grid;
+    private HashMap<BlockState, Character> characterSet;
+    private HashMap<Character, Integer> colourMap;
+    private ArrayList<String> asciiMap = new ArrayList<String>();
 
     public TownMap(int size, BlockPos pos) {
         this.size = size;
-        this.pos = pos;
-        this.grid = new char[size][size];
+        this.grid = new BlockState[size][size];
+        this.characterSet = new HashMap<>();
+        this.colourMap = new HashMap<>();
+        putColours();
         for (int i = 0; i < size; i++) {
-            Arrays.fill(this.grid[i], '.');
+            Arrays.fill(this.grid[i], null); // fill with empty block states
         }
+    }
+
+    public void putColours() {
+        colourMap.put('#', -2039584);
+        colourMap.put('/', -2039584);
+        colourMap.put('*',  0xFFFF0000);
+        colourMap.put('S',  0xFF00FFFF);
+        colourMap.put('.',  0xFF2E2E2E);
+    }
+
+    public HashMap<Character, Integer> getColourMap() {
+        return colourMap;
     }
 
     public int getSize() {
         return size;
     }
 
-    public BlockPos getPos() {
-        return pos;
+    public HashMap<BlockState, Character> getCharacterSet() {
+        return characterSet;
     }
 
-    public ArrayList<String> getArray() {
-        return array;
+    public void setCharacterSet(HashMap<BlockState, Character> hashMap) {
+        this.characterSet = hashMap;
     }
 
-    public void setArray(ArrayList<String> array) {
-        this.array = array;
+    public void setAsciiMap(ArrayList<String> asciiMap) {
+        this.asciiMap = asciiMap;
     }
 
-    public int getBeautyScore() {
-        return beautyScore;
+    public ArrayList<String> getAsciiMap() {
+        return asciiMap;
     }
 
-    public char[][] getGrid() {
+    public BlockState[][] getGrid() {
         return grid;
     }
 
-    public void setSymbol(int x, int y, char symbol) {
-        grid[x][y] = symbol;
+    public void setSymbolFromBlockState(int x, int y, BlockState state) {
+        grid[x][y] = state;
     }
-
-    public void updateBeautyScore() {
-        for (int dx = 0; dx < grid.length; dx++) {
-            for (int dy = 0; dy < grid[dx].length; dy++) {
-                if (grid[dx][dy] != '.') {
-                    beautyScore++;
-                }
-            }
-        }
-    }
-
 }

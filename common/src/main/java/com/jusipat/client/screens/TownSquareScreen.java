@@ -1,12 +1,15 @@
 package com.jusipat.client.screens;
 
 import com.jusipat.Platz;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+
+import java.util.ArrayList;
 
 public class TownSquareScreen extends AbstractContainerScreen<TownSquareMenu> {
 
@@ -30,17 +33,30 @@ public class TownSquareScreen extends AbstractContainerScreen<TownSquareMenu> {
         //guiGraphics.blit(BACKGROUND, x, y, 0, 0, imageWidth, imageHeight); // 1.21.1 and earlier
     }
 
-    @Override
-    protected void renderLabels(GuiGraphics guiGraphics, int i, int j) {
-        // todo: refresh map on reopening screen
-        //System.err.println(menu.getTownSquareBlockEntity().getTownMap().getArray().toString());
-        int offset = 0;
-        for (String rowString : menu.getTownSquareBlockEntity().getTownMap().getArray()) {
-            //System.err.println(rowString + '\n');
-            guiGraphics.drawCenteredString(this.font, Component.literal(rowString), 62, 10 + offset, -2039584);
-            offset+=2;
+    public void drawAsciiMap(GuiGraphics guiGraphics, Font font, ArrayList<String> rowStrings, int startX, int startY, int cellWidth, int cellHeight) {
+        for (int row = 0; row < rowStrings.size(); row++) {
+            String line = rowStrings.get(row);
+            for (int col = 0; col < line.length(); col++) {
+                char c = line.charAt(col);
+                int x = startX + col * cellWidth;
+                int y = startY + row * cellHeight;
+                guiGraphics.drawString(font, String.valueOf(c), x, y,
+                        menu.getTownSquareBlockEntity().getTownMap().getColourMap().get(c));
+            }
         }
     }
+
+    @Override
+    protected void renderLabels(GuiGraphics guiGraphics, int i, int j) {
+        drawAsciiMap(
+                guiGraphics,
+                this.font,
+                menu.getTownSquareBlockEntity().getTownMap().getAsciiMap(),
+                62, 10,
+                6, 9
+        );
+    }
+
 
     @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
