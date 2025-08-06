@@ -32,6 +32,8 @@ public class TownMap {
         colourMap.put('.',  0xFF2E2E2E);
         colourMap.put(',',  0xFF556B2F);
         colourMap.put('¸',  0xFF66A060);
+        colourMap.put('d',  0xFFD70060);
+        colourMap.put('~',  0xFF0000A0);
     }
 
     public HashMap<Character, Integer> getColourMap() {
