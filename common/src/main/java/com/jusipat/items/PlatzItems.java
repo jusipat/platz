@@ -18,8 +18,7 @@ public class PlatzItems {
     public static RegistrySupplier<Item> TOWN_HALL_BLOCK;
 
     public static void initItems() {
-        TOWN_HALL_BLOCK = registerItem("town_square_block", () -> new BlockItem(PlatzBlocks.TOWN_SQUARE_BLOCK.get(), baseProperties("town_square_block")));
-
+        TOWN_HALL_BLOCK = registerItem("town_square", () -> new BlockItem(PlatzBlocks.TOWN_SQUARE_BLOCK.get(), baseProperties("town_square")));
 
         ITEMS.register();
     }

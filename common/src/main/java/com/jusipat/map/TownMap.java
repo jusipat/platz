@@ -1,6 +1,5 @@
 package com.jusipat.map;
 
-import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.ArrayList;
@@ -14,7 +13,7 @@ public class TownMap {
     private HashMap<Character, Integer> colourMap;
     private ArrayList<String> asciiMap = new ArrayList<String>();
 
-    public TownMap(int size, BlockPos pos) {
+    public TownMap(int size) {
         this.size = size;
         this.grid = new BlockState[size][size];
         this.characterSet = new HashMap<>();
@@ -33,8 +32,6 @@ public class TownMap {
         colourMap.put('.',  0xFF2E2E2E);
         colourMap.put(',',  0xFF556B2F);
         colourMap.put('¸',  0xFF66A060);
-
-
     }
 
     public HashMap<Character, Integer> getColourMap() {
@@ -43,6 +40,10 @@ public class TownMap {
 
     public int getSize() {
         return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
     }
 
     public HashMap<BlockState, Character> getCharacterSet() {
@@ -68,4 +69,5 @@ public class TownMap {
     public void setSymbolFromBlockState(int x, int y, BlockState state) {
         grid[x][y] = state;
     }
+
 }

@@ -20,6 +20,9 @@ public class TownSquareScreen extends AbstractContainerScreen<TownSquareMenu> {
         this.imageWidth = 230;
         this.imageHeight = 219;
         //this.inventoryLabelY = -99; // hide inventory label
+        if (menu.getTownSquareBlockEntity() != null) {
+            menu.getTownSquareBlockEntity().refreshMap();
+        }
     }
 
     @Override
@@ -48,7 +51,6 @@ public class TownSquareScreen extends AbstractContainerScreen<TownSquareMenu> {
 
     @Override
     protected void renderLabels(GuiGraphics guiGraphics, int i, int j) {
-
         drawAsciiMap(
                 guiGraphics,
                 this.font,
@@ -63,6 +65,6 @@ public class TownSquareScreen extends AbstractContainerScreen<TownSquareMenu> {
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         super.render(guiGraphics, mouseX, mouseY, partialTick);
         renderTooltip(guiGraphics, mouseX, mouseY);
-        guiGraphics.drawString(this.font, Component.translatable(Platz.MOD_ID + ".container.town_square"), this.leftPos + 113, this.topPos + 10, 0xFFFFFFFF);
+        guiGraphics.drawString(this.font, Component.translatable(Platz.MOD_ID + ".container.town_square"), this.leftPos + 120, this.topPos + 10, 0xFFFFFFFF);
     }
 }

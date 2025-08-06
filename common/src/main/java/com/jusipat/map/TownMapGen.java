@@ -15,7 +15,7 @@ public class TownMapGen {
 
     public static TownMap generateMap(TownSquareBlockEntity blockEntity) {
         final int radius = 16;
-        TownMap map = new TownMap(radius * 2, blockEntity.getBlockPos());
+        TownMap map = new TownMap(radius * 2);
 
         TownMapGen.writeToMap(map, blockEntity, radius);
         TownMapGen.parseMap(map);
