@@ -3,14 +3,17 @@ package com.jusipat.blocks.block_entities;
 import com.jusipat.map.TownMap;
 import com.jusipat.map.TownMapGen;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+import net.minecraft.world.phys.AABB;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class TownSquareBlockEntity extends BlockEntity {
     private TownMap townMap;
@@ -51,5 +54,8 @@ public class TownSquareBlockEntity extends BlockEntity {
         this.townMap = TownMapGen.generateMap(this);
     }
 
-
+    public List getTrackedEntity(EntityType type, int radius) {
+        AABB area = new AABB(worldPosition).inflate(radius);
+        return this.level.getEntities(type, area, villager -> true);
+    }
 }
