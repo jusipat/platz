@@ -32,6 +32,8 @@ public class TownMap {
         colourMap.put('s',  0xFF00FFFF);
         colourMap.put('.',  0xFF2E2E2E);
         colourMap.put(',',  0xFF556B2F);
+        colourMap.put('¸',  0xFF66A060);
+
 
     }
 

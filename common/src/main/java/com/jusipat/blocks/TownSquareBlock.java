@@ -1,5 +1,6 @@
 package com.jusipat.blocks;
 
+import com.jusipat.Platz;
 import com.jusipat.blocks.block_entities.TownSquareBlockEntity;
 import com.jusipat.client.screens.TownSquareMenu;
 import com.jusipat.map.TownMap;
@@ -56,7 +57,7 @@ public class TownSquareBlock extends BaseEntityBlock implements InteractionEvent
 
                 @Override
                 public Component getDisplayName() {
-                    return Component.empty();
+                    return Component.translatable(Platz.MOD_ID + ".container.town_square");
                 }
 
                 @Override

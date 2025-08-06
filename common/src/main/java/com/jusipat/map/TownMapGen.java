@@ -101,7 +101,7 @@ public class TownMapGen {
             map.getCharacterSet().put(state, '_');
         }
         else if (state.is(Blocks.BUSH) || state.is(Blocks.DEAD_BUSH)) {
-            map.getCharacterSet().put(state, '_');
+            map.getCharacterSet().put(state, '¸');
         }
         else if (state.is(Blocks.TALL_DRY_GRASS) || state.is(Blocks.TALL_GRASS)
         || state.is(Blocks.SHORT_DRY_GRASS) || state.is(Blocks.SHORT_GRASS)) {
