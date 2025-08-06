@@ -61,11 +61,15 @@ public class TownMapGen {
     }
 
     public static void setMapKey(TownMap map, BlockState state) {
-        if (state.is(BlockTags.FLOWERS)) { // todo: implement more symbols
+        if (state.is(BlockTags.FLOWERS) || state.is(BlockTags.FLOWER_POTS)) { // todo: implement more symbols
             map.getCharacterSet().put(state, '*');
+            map.incBeautyScore(5);
         }
         else if (state.is(BlockTags.WALLS)) {
             map.getCharacterSet().put(state, '#');
+        }
+        else if (state.is(BlockTags.CAMPFIRES)) {
+            map.getCharacterSet().put(state, 'X');
         }
         else if (state.is(BlockTags.LOGS)) {
             map.getCharacterSet().put(state, '#');
@@ -84,6 +88,7 @@ public class TownMapGen {
         }
         else if (state.is(BlockTags.CROPS)) {
             map.getCharacterSet().put(state, '|');
+            map.incBeautyScore(2);
         }
         else if (state.is(BlockTags.DOORS)) {
             map.getCharacterSet().put(state, 'd');
@@ -96,16 +101,20 @@ public class TownMapGen {
         }
         else if (state.is(Blocks.WATER)) {
             map.getCharacterSet().put(state, '~');
+            map.incBeautyScore(1);
         }
         else if (state.is(Blocks.DIRT_PATH)) {
             map.getCharacterSet().put(state, '_');
+            map.incBeautyScore(1);
         }
         else if (state.is(Blocks.BUSH) || state.is(Blocks.DEAD_BUSH)) {
             map.getCharacterSet().put(state, '¸');
+            map.incBeautyScore(1);
         }
         else if (state.is(Blocks.TALL_DRY_GRASS) || state.is(Blocks.TALL_GRASS)
         || state.is(Blocks.SHORT_DRY_GRASS) || state.is(Blocks.SHORT_GRASS)) {
             map.getCharacterSet().put(state, ',');
+            map.incBeautyScore(1);
         }
         else if (state.getBlock() instanceof TownSquareBlock) {
             map.getCharacterSet().put(state, 's');

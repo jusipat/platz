@@ -55,7 +55,7 @@ public class TownSquareScreen extends AbstractContainerScreen<TownSquareMenu> {
                 guiGraphics,
                 this.font,
                 menu.getTownSquareBlockEntity().getTownMap().getAsciiMap(),
-                15, 5,
+                15, 3,
                 3, 3
         );
     }
@@ -65,6 +65,8 @@ public class TownSquareScreen extends AbstractContainerScreen<TownSquareMenu> {
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         super.render(guiGraphics, mouseX, mouseY, partialTick);
         renderTooltip(guiGraphics, mouseX, mouseY);
-        guiGraphics.drawString(this.font, Component.translatable(Platz.MOD_ID + ".container.town_square"), this.leftPos + 120, this.topPos + 10, 0xFFFFFFFF);
+        guiGraphics.drawString(this.font, Component.translatable(Platz.MOD_ID + ".container.town_square"), this.leftPos + 125, this.topPos + 10, 0xFFFFFFFF);
+        guiGraphics.drawString(this.font, String.valueOf(menu.getTownSquareBlockEntity().getTownMap().getBeautyScore()), this.leftPos + 125, this.topPos + 30, 0xFFFFFFFF);
+
     }
 }

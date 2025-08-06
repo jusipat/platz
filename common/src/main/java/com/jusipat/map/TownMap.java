@@ -12,6 +12,7 @@ public class TownMap {
     private HashMap<BlockState, Character> characterSet;
     private HashMap<Character, Integer> colourMap;
     private ArrayList<String> asciiMap = new ArrayList<String>();
+    private int beautyScore;
 
     public TownMap(int size) {
         this.size = size;
@@ -22,6 +23,7 @@ public class TownMap {
         for (int i = 0; i < size; i++) {
             Arrays.fill(this.grid[i], null); // fill with empty block states
         }
+        this.beautyScore = 0;
     }
 
     public void putColours() {
@@ -33,6 +35,7 @@ public class TownMap {
         colourMap.put(',',  0xFF556B2F);
         colourMap.put('¸',  0xFF66A060);
         colourMap.put('d',  0xFFD70060);
+        colourMap.put('X',  0xFFD700A0);
         colourMap.put('~',  0xFF0000A0);
     }
 
@@ -72,4 +75,15 @@ public class TownMap {
         grid[x][y] = state;
     }
 
+    public void setBeautyScore(int score) {
+        beautyScore = score;
+    }
+
+    public int getBeautyScore() {
+        return beautyScore;
+    }
+
+    public void incBeautyScore(int score) {
+        beautyScore += score;
+    }
 }
