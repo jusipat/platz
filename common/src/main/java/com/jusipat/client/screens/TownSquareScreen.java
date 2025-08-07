@@ -71,5 +71,6 @@ public class TownSquareScreen extends AbstractContainerScreen<TownSquareMenu> {
         guiGraphics.drawString(this.font, String.valueOf(menu.getTownSquareBlockEntity().getTrackedEntity(EntityType.VILLAGER, 50).size()), this.leftPos + 125, this.topPos + 50, 0xFFFFFFFF);
         guiGraphics.drawString(this.font, String.valueOf(menu.getTownSquareBlockEntity().getTrackedEntity(EntityType.IRON_GOLEM, 50).size()), this.leftPos + 125, this.topPos + 70, 0xFFFFFFFF);
 
+
     }
 }
