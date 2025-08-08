@@ -104,7 +104,6 @@ public class TownMapGen {
         else if (state.is(BlockTags.SLABS)) {
             map.getCharacterSet().put(state, '-');
             map.incBeautyScore(1);
-
         }
         else if (state.is(BlockTags.STAIRS)) {
             map.getCharacterSet().put(state, '/');
@@ -132,6 +131,7 @@ public class TownMapGen {
         }
         else {
             map.getCharacterSet().put(state, '.');
+            map.incBeautyScore(0.001f); // reward empty space (in 3d space)
         }
     }
 }
