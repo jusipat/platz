@@ -17,8 +17,7 @@ public class PlatzBlocks {
     public static RegistrySupplier<Block> TOWN_SQUARE_BLOCK;
 
     public static void initBlocks() {
-            TOWN_SQUARE_BLOCK = registerBlock("town_square", () -> new TownSquareBlock(baseProperties("town_square")));
-
+        TOWN_SQUARE_BLOCK = registerBlock("town_square", () -> new TownSquareBlock(baseProperties("town_square")));
 
         BLOCKS.register();
     }

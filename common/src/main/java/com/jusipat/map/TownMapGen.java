@@ -83,6 +83,10 @@ public class TownMapGen {
         else if (state.is(Blocks.STONE)) {
             map.getCharacterSet().put(state, '#');
         }
+        else if (state.is(BlockTags.FENCES) || state.is(BlockTags.FENCE_GATES)) {
+            map.getCharacterSet().put(state, '=');
+            map.incBeautyScore(2);
+        }
         else if (state.is(BlockTags.STONE_BRICKS)) {
             map.getCharacterSet().put(state, '#');
         }
@@ -90,14 +94,21 @@ public class TownMapGen {
             map.getCharacterSet().put(state, '|');
             map.incBeautyScore(2);
         }
+        else if (state.is(BlockTags.LEAVES)) {
+            map.getCharacterSet().put(state, '+');
+            map.incBeautyScore(3);
+        }
         else if (state.is(BlockTags.DOORS)) {
             map.getCharacterSet().put(state, 'd');
         }
         else if (state.is(BlockTags.SLABS)) {
             map.getCharacterSet().put(state, '-');
+            map.incBeautyScore(1);
+
         }
         else if (state.is(BlockTags.STAIRS)) {
             map.getCharacterSet().put(state, '/');
+            map.incBeautyScore(1);
         }
         else if (state.is(Blocks.WATER)) {
             map.getCharacterSet().put(state, '~');
