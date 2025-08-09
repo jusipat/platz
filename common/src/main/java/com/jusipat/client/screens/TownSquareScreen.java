@@ -2,53 +2,42 @@ package com.jusipat.client.screens;
 
 import com.google.common.collect.Lists;
 import com.jusipat.Platz;
-import com.mojang.datafixers.util.Either;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractButton;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.gui.screens.inventory.BeaconScreen;
 import net.minecraft.client.renderer.RenderPipelines;
-import net.minecraft.core.Holder;
-import net.minecraft.core.HolderOwner;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.TagKey;
-import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Inventory;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.function.Predicate;
-import java.util.stream.Stream;
 
 public class TownSquareScreen extends AbstractContainerScreen<TownSquareMenu> {
 
     private static final ResourceLocation BACKGROUND = ResourceLocation.fromNamespaceAndPath(Platz.MOD_ID, "textures/gui/container/town_square.png");
+    static final ResourceLocation BARGAIN_SPRITE = ResourceLocation.fromNamespaceAndPath(Platz.MOD_ID, "textures/gui/container/bargain.png");
+    static final ResourceLocation TRADERDEAL_SPRITE = ResourceLocation.fromNamespaceAndPath(Platz.MOD_ID, "textures/gui/container/trader_deal.png");
+    static final ResourceLocation GOLEMBUFF_SPRITE = ResourceLocation.fromNamespaceAndPath(Platz.MOD_ID, "textures/gui/container/golem_buff.png");
+    static final ResourceLocation ANTIRAID_SPRITE = ResourceLocation.fromNamespaceAndPath(Platz.MOD_ID, "textures/gui/container/antiraid.png");
+    static final ResourceLocation CROPBUFF_SPRITE = ResourceLocation.fromNamespaceAndPath(Platz.MOD_ID, "textures/gui/container/crop_buff.png");
+    static final ResourceLocation LUCKBUFF_SPRITE = ResourceLocation.fromNamespaceAndPath(Platz.MOD_ID, "textures/gui/container/luck_buff.png");
+
     static final ResourceLocation BUTTON_DISABLED_SPRITE = ResourceLocation.withDefaultNamespace("container/beacon/button_disabled");
     static final ResourceLocation BUTTON_SELECTED_SPRITE = ResourceLocation.withDefaultNamespace("container/beacon/button_selected");
     static final ResourceLocation BUTTON_HIGHLIGHTED_SPRITE = ResourceLocation.withDefaultNamespace("container/beacon/button_highlighted");
     static final ResourceLocation BUTTON_SPRITE = ResourceLocation.withDefaultNamespace("container/beacon/button");
     static final ResourceLocation CONFIRM_SPRITE = ResourceLocation.withDefaultNamespace("container/beacon/confirm");
-    static final ResourceLocation CANCEL_SPRITE = ResourceLocation.withDefaultNamespace("container/beacon/cancel");
     private final List<TownSquareButton> buttons = Lists.newArrayList();
-
-    @Nullable
-    Holder<MobEffect> primary;
-    @Nullable
-    Holder<MobEffect> secondary;
 
     public TownSquareScreen(TownSquareMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
@@ -88,10 +77,6 @@ public class TownSquareScreen extends AbstractContainerScreen<TownSquareMenu> {
         }
     }
 
-    void updateButtons() {
-        //this.buttons.forEach((townSquareButton) -> townSquareButton.updateStatus(i));
-    }
-
     @Override
     protected void renderLabels(GuiGraphics guiGraphics, int i, int j) {
         drawAsciiMap(
@@ -123,6 +108,7 @@ public class TownSquareScreen extends AbstractContainerScreen<TownSquareMenu> {
 
         protected TownSquareScreenButton(int i, int j, Component component) {
             super(i, j, 22, 22, component);
+            this.active = false; // disabled by default
         }
 
         public void renderWidget(GuiGraphics guiGraphics, int i, int j, float f) {
@@ -160,12 +146,18 @@ public class TownSquareScreen extends AbstractContainerScreen<TownSquareMenu> {
     protected void init() {
         super.init();
         this.buttons.clear();
-        this.addTownSquareButton(new TownSquareConfirmButton(this.leftPos + 150, this.topPos + 27));
-        this.addTownSquareButton(new TownSquareConfirmButton(this.leftPos + 170, this.topPos + 27));
-        this.addTownSquareButton(new TownSquareCancelButton(this.leftPos + 190, this.topPos + 27));
-        this.addTownSquareButton(new TownSquareConfirmButton(this.leftPos + 150, this.topPos + 57));
-        this.addTownSquareButton(new TownSquareConfirmButton(this.leftPos + 170, this.topPos + 57));
-        this.addTownSquareButton(new TownSquareCancelButton(this.leftPos + 190, this.topPos + 57));
+        this.addTownSquareButton(new TownSquarePowerButton(this.leftPos + 150, this.topPos + 27,
+                BARGAIN_SPRITE, Tooltip.create(Component.translatable(Platz.MOD_ID + ".container.tooltip.bargain"))));
+        this.addTownSquareButton(new TownSquarePowerButton(this.leftPos + 170, this.topPos + 27,
+                TRADERDEAL_SPRITE, Tooltip.create(Component.translatable(Platz.MOD_ID + ".container.tooltip.deal"))));
+        this.addTownSquareButton(new TownSquarePowerButton(this.leftPos + 150, this.topPos + 47,
+                GOLEMBUFF_SPRITE, Tooltip.create(Component.translatable(Platz.MOD_ID + ".container.tooltip.golem"))));
+        this.addTownSquareButton(new TownSquarePowerButton(this.leftPos + 170, this.topPos + 47,
+                ANTIRAID_SPRITE, Tooltip.create(Component.translatable(Platz.MOD_ID + ".container.tooltip.antiraid"))));
+        this.addTownSquareButton(new TownSquarePowerButton(this.leftPos + 150, this.topPos + 67,
+                CROPBUFF_SPRITE, Tooltip.create(Component.translatable(Platz.MOD_ID + ".container.tooltip.crop"))));
+        this.addTownSquareButton(new TownSquarePowerButton(this.leftPos + 170, this.topPos + 67,
+                LUCKBUFF_SPRITE, Tooltip.create(Component.translatable(Platz.MOD_ID + ".container.tooltip.luck"))));
     }
 
     @Environment(EnvType.CLIENT)
@@ -178,14 +170,16 @@ public class TownSquareScreen extends AbstractContainerScreen<TownSquareMenu> {
         }
 
         protected void renderIcon(GuiGraphics guiGraphics) {
-            guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, this.sprite, this.getX() + 2, this.getY() + 2, 18, 18);
+            guiGraphics.blit(RenderPipelines.GUI_TEXTURED, this.sprite, this.getX()+2, this.getY(), 0.0F, 0.0F, 18, 18, 18, 18); // 1.21.2 and later
         }
     }
 
     @Environment(EnvType.CLIENT)
-    class TownSquareConfirmButton extends TownSquareSpriteScreenButton {
-        public TownSquareConfirmButton(final int i, final int j) {
-            super(i, j, TownSquareScreen.CONFIRM_SPRITE, CommonComponents.GUI_DONE);
+    class TownSquarePowerButton extends TownSquareSpriteScreenButton {
+        public TownSquarePowerButton(final int i, final int j, ResourceLocation res, Tooltip tooltip) {
+            super(i, j, res, CommonComponents.EMPTY);
+            this.setTooltip(tooltip);
+
         }
 
         public void onPress() {
@@ -194,21 +188,6 @@ public class TownSquareScreen extends AbstractContainerScreen<TownSquareMenu> {
 
         public void updateStatus(int i) {
             //this.active = ((TownSquareMenu) TownSquareScreen.this.menu).hasPayment() && TownSquareScreen.this.primary != null;
-        }
-    }
-
-    @Environment(EnvType.CLIENT)
-    class TownSquareCancelButton extends TownSquareSpriteScreenButton {
-        public TownSquareCancelButton(final int i, final int j) {
-            super(i, j, TownSquareScreen.CANCEL_SPRITE, CommonComponents.GUI_CANCEL);
-        }
-
-        public void onPress() {
-            assert Objects.requireNonNull(TownSquareScreen.this.minecraft).player != null;
-            TownSquareScreen.this.minecraft.player.closeContainer();
-        }
-
-        public void updateStatus(int i) {
         }
     }
 

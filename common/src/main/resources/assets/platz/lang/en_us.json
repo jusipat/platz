@@ -1,0 +1,12 @@
+{
+  "item.platz.town_square": "Town Square",
+  "platz.container.town_square": "Town Square",
+
+  "platz.container.tooltip.bargain": "Trade Firesale",
+  "platz.container.tooltip.deal": "Encourage Merchants",
+  "platz.container.tooltip.golem": "Enhanced Golems",
+  "platz.container.tooltip.antiraid": "Pillager Repellant",
+  "platz.container.tooltip.crop": "Bountiful Harvests",
+  "platz.container.tooltip.luck": "Lucky Fishing"
+
+}
