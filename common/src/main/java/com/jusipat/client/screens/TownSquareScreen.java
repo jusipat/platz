@@ -2,24 +2,37 @@ package com.jusipat.client.screens;
 
 import com.google.common.collect.Lists;
 import com.jusipat.Platz;
+import com.mojang.datafixers.util.Either;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractButton;
 import net.minecraft.client.gui.components.AbstractWidget;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderOwner;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Inventory;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 public class TownSquareScreen extends AbstractContainerScreen<TownSquareMenu> {
 
@@ -31,6 +44,11 @@ public class TownSquareScreen extends AbstractContainerScreen<TownSquareMenu> {
     static final ResourceLocation CONFIRM_SPRITE = ResourceLocation.withDefaultNamespace("container/beacon/confirm");
     static final ResourceLocation CANCEL_SPRITE = ResourceLocation.withDefaultNamespace("container/beacon/cancel");
     private final List<TownSquareButton> buttons = Lists.newArrayList();
+
+    @Nullable
+    Holder<MobEffect> primary;
+    @Nullable
+    Holder<MobEffect> secondary;
 
     public TownSquareScreen(TownSquareMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
@@ -70,6 +88,10 @@ public class TownSquareScreen extends AbstractContainerScreen<TownSquareMenu> {
         }
     }
 
+    void updateButtons() {
+        //this.buttons.forEach((townSquareButton) -> townSquareButton.updateStatus(i));
+    }
+
     @Override
     protected void renderLabels(GuiGraphics guiGraphics, int i, int j) {
         drawAsciiMap(
@@ -95,12 +117,12 @@ public class TownSquareScreen extends AbstractContainerScreen<TownSquareMenu> {
     abstract static class TownSquareScreenButton extends AbstractButton implements TownSquareButton {
         private boolean selected;
 
-        protected TownSquareScreenButton(int i, int j, Component component) {
-            super(i, j, 22, 22, component);
+        protected TownSquareScreenButton(int i, int j) {
+            super(i, j, 22, 22, CommonComponents.EMPTY);
         }
 
-        public TownSquareScreenButton(int i, int j, int k, int l, Component component) {
-            super(i, j, k, l, component);
+        protected TownSquareScreenButton(int i, int j, Component component) {
+            super(i, j, 22, 22, component);
         }
 
         public void renderWidget(GuiGraphics guiGraphics, int i, int j, float f) {
@@ -138,8 +160,12 @@ public class TownSquareScreen extends AbstractContainerScreen<TownSquareMenu> {
     protected void init() {
         super.init();
         this.buttons.clear();
-        this.addTownSquareButton(new TownSquareConfirmButton(this.leftPos + 164, this.topPos + 110));
-        this.addTownSquareButton(new TownSquareCancelButton(this.leftPos + 190, this.topPos + 110));
+        this.addTownSquareButton(new TownSquareConfirmButton(this.leftPos + 150, this.topPos + 27));
+        this.addTownSquareButton(new TownSquareConfirmButton(this.leftPos + 170, this.topPos + 27));
+        this.addTownSquareButton(new TownSquareCancelButton(this.leftPos + 190, this.topPos + 27));
+        this.addTownSquareButton(new TownSquareConfirmButton(this.leftPos + 150, this.topPos + 57));
+        this.addTownSquareButton(new TownSquareConfirmButton(this.leftPos + 170, this.topPos + 57));
+        this.addTownSquareButton(new TownSquareCancelButton(this.leftPos + 190, this.topPos + 57));
     }
 
     @Environment(EnvType.CLIENT)
