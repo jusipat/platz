@@ -13,5 +13,9 @@
   "platz.container.tooltip.crop": "Bountiful Harvests",
   "platz.container.tooltip.crop.desc": "All crops within the village grow 15% faster",
   "platz.container.tooltip.luck": "Lucky Fishing",
-  "platz.container.tooltip.luck.desc": "Fishing within the village gives 15% luckier yields"
+  "platz.container.tooltip.luck.desc": "Fishing within the village gives 15% luckier yields",
+
+  "platz.condition.villagers": "Requires %1$s villagers",
+  "platz.condition.beauty": "Requires %1$s beauty",
+  "platz.condition.golems": "Requires %1$s iron golems"
 }
