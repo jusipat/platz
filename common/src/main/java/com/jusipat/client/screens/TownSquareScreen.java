@@ -146,6 +146,7 @@ public class TownSquareScreen extends AbstractContainerScreen<TownSquareMenu> {
     protected void init() {
         super.init();
         this.buttons.clear();
+
         this.addTownSquareButton(new TownSquarePowerButton(this.leftPos + 150, this.topPos + 27,
                 BARGAIN_SPRITE, Tooltip.create(Component.translatable(Platz.MOD_ID + ".container.tooltip.bargain"))));
         this.addTownSquareButton(new TownSquarePowerButton(this.leftPos + 170, this.topPos + 27,
@@ -178,17 +179,14 @@ public class TownSquareScreen extends AbstractContainerScreen<TownSquareMenu> {
     class TownSquarePowerButton extends TownSquareSpriteScreenButton {
         public TownSquarePowerButton(final int i, final int j, ResourceLocation res, Tooltip tooltip) {
             super(i, j, res, CommonComponents.EMPTY);
-            this.setTooltip(tooltip);
-
+            this.setTooltip(tooltip); // only sets one tooltip with one component, does not accept a List<Tooltip>, either
         }
 
         public void onPress() {
             TownSquareScreen.this.minecraft.player.closeContainer();
         }
 
-        public void updateStatus(int i) {
-            //this.active = ((TownSquareMenu) TownSquareScreen.this.menu).hasPayment() && TownSquareScreen.this.primary != null;
-        }
+        public void updateStatus(int i) {}
     }
 
     @Environment(EnvType.CLIENT)

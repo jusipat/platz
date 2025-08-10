@@ -3,10 +3,15 @@
   "platz.container.town_square": "Town Square",
 
   "platz.container.tooltip.bargain": "Trade Firesale",
+  "platz.container.tooltip.bargain.desc": "All villager trades are discounted by 10%",
   "platz.container.tooltip.deal": "Encourage Merchants",
+  "platz.container.tooltip.deal.desc": "Wandering Merchants stay longer and refresh their trades every day",
   "platz.container.tooltip.golem": "Enhanced Golems",
+  "platz.container.tooltip.golem.desc": "Iron Golems receive regeneration within the village",
   "platz.container.tooltip.antiraid": "Pillager Repellant",
+  "platz.container.tooltip.antiraid.desc": "Pillager raids do not occur within the village",
   "platz.container.tooltip.crop": "Bountiful Harvests",
-  "platz.container.tooltip.luck": "Lucky Fishing"
-
+  "platz.container.tooltip.crop.desc": "All crops within the village grow 15% faster",
+  "platz.container.tooltip.luck": "Lucky Fishing",
+  "platz.container.tooltip.luck.desc": "Fishing within the village gives 15% luckier yields"
 }
