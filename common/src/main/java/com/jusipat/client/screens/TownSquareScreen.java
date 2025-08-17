@@ -2,6 +2,8 @@ package com.jusipat.client.screens;
 
 import com.google.common.collect.Lists;
 import com.jusipat.Platz;
+import com.jusipat.netcode.GossipPacket;
+import commonnetwork.api.Dispatcher;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.ChatFormatting;
@@ -95,7 +97,7 @@ public class TownSquareScreen extends AbstractContainerScreen<TownSquareMenu> {
         super.render(guiGraphics, mouseX, mouseY, partialTick);
         renderTooltip(guiGraphics, mouseX, mouseY);
         guiGraphics.drawString(this.font, Component.translatable(Platz.MOD_ID + ".container.town_square"), this.leftPos + 125, this.topPos + 10, 0xFFFFFFFF);
-        guiGraphics.drawString(this.font, String.valueOf((int) menu.getTownSquareBlockEntity().getTownMap().getBeautyScore()), this.leftPos + 125, this.topPos + 35, 0xFFFFFFFF);
+        guiGraphics.drawString(this.font, String.valueOf((int) menu.getTownSquareBlockEntity().getTownMap().getBeautyScore()), this.leftPos + 125, this.topPos + 34, 0xFFFFFFFF);
         guiGraphics.drawString(this.font, String.valueOf(menu.getTownSquareBlockEntity().getTrackedEntity(EntityType.VILLAGER, 50).size()), this.leftPos + 130, this.topPos + 50, 0xFFFFFFFF);
         guiGraphics.drawString(this.font, String.valueOf(menu.getTownSquareBlockEntity().getTrackedEntity(EntityType.IRON_GOLEM, 50).size()), this.leftPos + 130, this.topPos + 70, 0xFFFFFFFF);
     }
@@ -167,11 +169,11 @@ public class TownSquareScreen extends AbstractContainerScreen<TownSquareMenu> {
 
     private List<Pair<Boolean, MutableComponent>> conditionList(final int v, final int g, final int b) {
         return List.of(
-                Pair.of(menu.getTownSquareBlockEntity().getTrackedEntity(EntityType.VILLAGER, 50).size() > 15,
+                Pair.of(menu.getTownSquareBlockEntity().getTrackedEntity(EntityType.VILLAGER, 50).size() >= v,
                         Component.translatable(Platz.MOD_ID + ".condition.villagers", v)),
-                Pair.of(menu.getTownSquareBlockEntity().getTrackedEntity(EntityType.IRON_GOLEM, 50).size() > 3,
+                Pair.of(menu.getTownSquareBlockEntity().getTrackedEntity(EntityType.IRON_GOLEM, 50).size() >= g,
                         Component.translatable(Platz.MOD_ID + ".condition.golems", g)),
-                Pair.of(menu.getTownSquareBlockEntity().getTownMap().getBeautyScore() > 1300,
+                Pair.of(menu.getTownSquareBlockEntity().getTownMap().getBeautyScore() >= b,
                         Component.translatable(Platz.MOD_ID + ".condition.beauty", b))
         );
     }
@@ -180,44 +182,50 @@ public class TownSquareScreen extends AbstractContainerScreen<TownSquareMenu> {
     protected void init() {
         super.init();
         this.buttons.clear();
+
+        List<Pair<Boolean, MutableComponent>> l1 = conditionList(15, 3, 1000);
         this.addTownSquareButton(new TownSquarePowerButton(this.leftPos + 150, this.topPos + 27,
                 BARGAIN_SPRITE,
                 Tooltip.create(buildTooltipWithStatus(
                         Component.translatable(Platz.MOD_ID + ".container.tooltip.bargain").withStyle(ChatFormatting.GOLD),
                         Component.translatable(Platz.MOD_ID + ".container.tooltip.bargain.desc").withStyle(ChatFormatting.GRAY),
-                        conditionList(15, 3, 1000)
-                ))));
+                        l1
+                )), l1.stream().allMatch(Pair::getLeft))); // check if all conditions are met to set button active
 
+        List<Pair<Boolean, MutableComponent>> l2 = conditionList(20, 2, 1250);
         this.addTownSquareButton(new TownSquarePowerButton(this.leftPos + 170, this.topPos + 27,
                 TRADERDEAL_SPRITE, Tooltip.create(buildTooltipWithStatus(Component.translatable(Platz.MOD_ID + ".container.tooltip.deal").withStyle(ChatFormatting.GOLD),
                 Component.translatable(Platz.MOD_ID + ".container.tooltip.deal.desc").withStyle(ChatFormatting.GRAY),
-                conditionList(20, 2, 1250)
+                l2
+        )), l2.stream().allMatch(Pair::getLeft)));
 
-        ))));
-
+        List<Pair<Boolean, MutableComponent>> l3 = conditionList(15, 3, 1000);
         this.addTownSquareButton(new TownSquarePowerButton(this.leftPos + 150, this.topPos + 47,
                 GOLEMBUFF_SPRITE, Tooltip.create(buildTooltipWithStatus(Component.translatable(Platz.MOD_ID + ".container.tooltip.golem").withStyle(ChatFormatting.YELLOW),
                 Component.translatable(Platz.MOD_ID + ".container.tooltip.golem.desc").withStyle(ChatFormatting.GRAY),
-                conditionList(10, 5, 900)
-        ))));
+                l3
+        )), l3.stream().allMatch(Pair::getLeft)));
 
+        List<Pair<Boolean, MutableComponent>> l4 = conditionList(15, 3, 1000);
         this.addTownSquareButton(new TownSquarePowerButton(this.leftPos + 170, this.topPos + 47,
                 ANTIRAID_SPRITE, Tooltip.create(buildTooltipWithStatus(Component.translatable(Platz.MOD_ID + ".container.tooltip.antiraid").withStyle(ChatFormatting.YELLOW),
                 Component.translatable(Platz.MOD_ID + ".container.tooltip.antiraid.desc").withStyle(ChatFormatting.GRAY),
-                conditionList(15, 6, 2000)
-        ))));
+                l4
+        )), l4.stream().allMatch(Pair::getLeft)));
 
+        List<Pair<Boolean, MutableComponent>> l5 = conditionList(15, 3, 1000);
         this.addTownSquareButton(new TownSquarePowerButton(this.leftPos + 150, this.topPos + 67,
                 CROPBUFF_SPRITE, Tooltip.create(buildTooltipWithStatus(Component.translatable(Platz.MOD_ID + ".container.tooltip.crop").withStyle(ChatFormatting.GREEN),
                 Component.translatable(Platz.MOD_ID + ".container.tooltip.crop.desc").withStyle(ChatFormatting.GRAY),
-                conditionList(8, 1, 1300)
-        ))));
+                l5
+        )), l5.stream().allMatch(Pair::getLeft)));
 
+        List<Pair<Boolean, MutableComponent>> l6 = conditionList(15, 3, 1000);
         this.addTownSquareButton(new TownSquarePowerButton(this.leftPos + 170, this.topPos + 67,
                 LUCKBUFF_SPRITE, Tooltip.create(buildTooltipWithStatus(Component.translatable(Platz.MOD_ID + ".container.tooltip.luck").withStyle(ChatFormatting.GREEN),
                 Component.translatable(Platz.MOD_ID + ".container.tooltip.luck.desc").withStyle(ChatFormatting.GRAY),
-                conditionList(10, 3, 2500)
-        ))));
+                l6
+        )), l6.stream().allMatch(Pair::getLeft)));
     }
 
     @Environment(EnvType.CLIENT)
@@ -236,13 +244,15 @@ public class TownSquareScreen extends AbstractContainerScreen<TownSquareMenu> {
 
     @Environment(EnvType.CLIENT)
     class TownSquarePowerButton extends TownSquareSpriteScreenButton {
-        public TownSquarePowerButton(final int i, final int j, ResourceLocation res, Tooltip tooltip) {
+        public TownSquarePowerButton(final int i, final int j, ResourceLocation res, Tooltip tooltip, boolean conditionsMet) {
             super(i, j, res, CommonComponents.EMPTY);
             this.setTooltip(tooltip); // only sets one tooltip with one component, does not accept a List<Tooltip>, either
+            this.active = conditionsMet;
         }
 
         public void onPress() {
-            TownSquareScreen.this.minecraft.player.closeContainer();
+            Dispatcher.sendToServer(new GossipPacket()); // todo: testing packets
+            // TownSquareScreen.this.minecraft.player.closeContainer();
         }
 
         public void updateStatus(int i) {}
